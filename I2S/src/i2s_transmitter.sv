@@ -34,7 +34,7 @@ module i2s_transmitter(
             begin
                 sdout <= 1'b0;
                 if(prev_lr ^ lrclk) begin
-                    counter = 23;
+                    counter = 5'd23;
                     state <= SEND;
                 end
                 prev_lr <= lrclk;
@@ -42,7 +42,7 @@ module i2s_transmitter(
         SEND:
             begin          
                 sdout <= data[counter];
-                if(counter == 3'd0) begin
+                if(counter == 5'd0) begin
                     state <= IDLE;
                 end
                 counter--;
