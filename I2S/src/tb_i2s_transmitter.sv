@@ -3,7 +3,7 @@
 module tb_i2s_transmitter;
     reg reset, in_mclk;
     reg [23:0] in_data;
-    wire in_sclk, in_lrclk, out_mclk, out_sclk, out_lrclk;
+    wire in_sclk, in_lrclk;
     wire out;
     reg [23:0] data_arr[0:6]; //= {50321, 2131, 34245, 12312, 9044432, 0, 16777215};
     integer count;
@@ -15,14 +15,10 @@ module tb_i2s_transmitter;
     );
     i2s_transmitter DUT(
         .rst(reset),
-        .mclk(in_mclk),
         .sclk(in_sclk),
         .lrclk(in_lrclk),
         .data(in_data),
-        .sdout(out),
-        .mclk_out(out_mclk),
-        .sclk_out(out_sclk),
-        .lrclk_out(out_lrclk)
+        .sdout(out)
     );
     initial begin
         $dumpfile("../sim/i2s_transmitter.vcd");

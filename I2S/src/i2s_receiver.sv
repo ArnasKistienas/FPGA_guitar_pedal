@@ -1,14 +1,10 @@
 module i2s_receiver(
         input rst,
-        input mclk,
         input sclk,
         input lrclk,
         input sdin,
         output reg [23:0]data,
-        output reg dvalid,
-        output mclk_out,
-        output sclk_out,
-        output lrclk_out
+        output reg dvalid
     );
     assign mclk_out = mclk;
     assign sclk_out = sclk;

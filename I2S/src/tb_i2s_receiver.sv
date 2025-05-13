@@ -3,7 +3,7 @@
 module tb_i2s_receiver;
     reg reset, in_mclk;
     wire [23:0] out_data;
-    wire in_sclk, in_lrclk, out_mclk, out_sclk, out_lrclk, data_valid;
+    wire in_sclk, in_lrclk, data_valid;
     reg in;
     integer count, I;
     i2s_clock_divider TEST_HELP(
@@ -14,15 +14,11 @@ module tb_i2s_receiver;
     );
     i2s_receiver DUT(
         .rst(reset),
-        .mclk(in_mclk),
         .sclk(in_sclk),
         .lrclk(in_lrclk),
         .sdin(in),
         .data(out_data),
-        .dvalid(data_valid),
-        .mclk_out(out_mclk),
-        .sclk_out(out_sclk),
-        .lrclk_out(out_lrclk)
+        .dvalid(data_valid)
     );
     initial begin
         $dumpfile("../sim/i2s_receiver.vcd");
