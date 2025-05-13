@@ -1,6 +1,6 @@
 `timescale 10ps / 10ps
 
-module tb_i2s_clocks;
+module tb_i2s_clock_divider;
 reg mclk, reset;
 wire sclk, lrclk;
 i2s_clock_divider DUT(

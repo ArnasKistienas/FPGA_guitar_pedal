@@ -1,4 +1,4 @@
-module i2s_transmitter(
+module i2s_receiver(
         input rst,
         input mclk,
         input sclk,

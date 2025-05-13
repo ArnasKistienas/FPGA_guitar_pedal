@@ -12,7 +12,7 @@ module tb_i2s_receiver;
         .sclk(in_sclk),
         .lrclk(in_lrclk)
     );
-    i2s_transmitter DUT(
+    i2s_receiver DUT(
         .rst(reset),
         .mclk(in_mclk),
         .sclk(in_sclk),
