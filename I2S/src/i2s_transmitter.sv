@@ -5,9 +5,6 @@ module i2s_transmitter(
         input [23:0]data,
         output reg sdout
     );
-    assign mclk_out = mclk;
-    assign sclk_out = sclk;
-    assign lrclk_out = lrclk;
 
     // Iterators
     reg [4:0] counter;

@@ -6,9 +6,6 @@ module i2s_receiver(
         output reg [23:0]data,
         output reg dvalid
     );
-    assign mclk_out = mclk;
-    assign sclk_out = sclk;
-    assign lrclk_out = lrclk;
 
     // Iterators
     reg [4:0] counter;
