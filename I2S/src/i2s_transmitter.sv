@@ -17,31 +17,33 @@ module i2s_transmitter(
     reg state;
   
     // State transitions
-    always @(posedge sclk) begin
+    always @(posedge sclk or posedge rst) begin
         if(rst) begin
-            prev_lr = lrclk;
-            state = IDLE;
-        end
-        case (state)
-        IDLE:
-            begin
-                sdout <= 1'b0;
-                if(prev_lr ^ lrclk) begin
-                    counter = 5'd23;
-                    state <= SEND;
-                end
-                prev_lr <= lrclk;
-            end
-        SEND:
-            begin          
-                sdout <= data[counter];
-                if(counter == 5'd0) begin
-                    state <= IDLE;
-                end
-                counter--;
-            end
-        default:
+            prev_lr <= lrclk;
             state <= IDLE;
-        endcase
+            sdout <= 0;
+        end else begin
+            case (state)
+            IDLE:
+                begin
+                    sdout <= 1'b0;
+                    if(prev_lr ^ lrclk) begin
+                        counter = 5'd23;
+                        state <= SEND;
+                    end
+                    prev_lr <= lrclk;
+                end
+            SEND:
+                begin          
+                    sdout <= data[counter];
+                    if(counter == 5'd0) begin
+                        state <= IDLE;
+                    end
+                    counter--;
+                end
+            default:
+                state <= IDLE;
+            endcase
+        end
     end
 endmodule

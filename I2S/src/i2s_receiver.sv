@@ -16,35 +16,37 @@ module i2s_receiver(
         IDLE        = 1'b0,
         READ        = 1'b1;
     reg state;
-  
+
     // State transitions
-    always @(posedge sclk) begin
+    always @(posedge sclk or posedge rst) begin
         if(rst) begin
-            prev_lr = lrclk;
-            dvalid = 1'b0;
-            state = IDLE;
-        end
-        case (state)
-        IDLE:
-            begin
-                if(prev_lr ^ lrclk) begin
-                    counter = 5'd23;
-                    dvalid <= 1'b0;
-                    state <= READ;
-                end
-                prev_lr <= lrclk;
-            end
-        READ:
-            begin          
-                data[counter] <= sdin;
-                if(counter == 5'd0) begin
-                    dvalid <= 1'b1;
-                    state <= IDLE;
-                end
-                counter--;
-            end
-        default:
+            prev_lr <= lrclk;
+            dvalid <= 1'b0;
+            data <= 24'd0;
             state <= IDLE;
-        endcase
+        end else begin
+            case (state)
+            IDLE:
+                begin
+                    if(prev_lr ^ lrclk) begin
+                        counter = 5'd23;
+                        dvalid <= 1'b0;
+                        state <= READ;
+                    end
+                    prev_lr <= lrclk;
+                end
+            READ:
+                begin          
+                    data[counter] <= sdin;
+                    if(counter == 5'd0) begin
+                        dvalid <= 1'b1;
+                        state <= IDLE;
+                    end
+                    counter--;
+                end
+            default:
+                state <= IDLE;
+            endcase
+        end
     end
 endmodule

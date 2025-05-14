@@ -28,8 +28,9 @@ module tb_i2s_receiver;
     initial begin
         reset = 1'b1;
         count = 1'b0;
-        in_mclk=1'b1;
-        #2215 reset = 0;
+        in_mclk=1'b0;
+        #(4428*8) reset = 0;
+        #(4428*8*32)
         send_chunk(24'd50321);
         #(4428*8*7);
         send_chunk(24'd16777215);

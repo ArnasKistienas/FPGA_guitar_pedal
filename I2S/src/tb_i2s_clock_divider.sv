@@ -11,8 +11,6 @@ i2s_clock_divider DUT(
 );
 
 initial begin
-    $dumpfile("../sim/tb_i2s_clocks.vcd");
-    $dumpvars(0, tb_i2s_clocks);
     mclk=0;
     reset=0;
     forever #2214 mclk=~mclk;
