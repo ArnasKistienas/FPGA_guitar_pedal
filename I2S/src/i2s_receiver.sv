@@ -3,7 +3,7 @@ module i2s_receiver(
         input sclk,
         input lrclk,
         input sdin,
-        output reg [23:0]data,
+        output reg signed [23:0]data,
         output reg dvalid
     );
 
@@ -37,12 +37,21 @@ module i2s_receiver(
                 end
             READ:
                 begin          
+                    data <= data << 1;
+                    data[0] <=  sdin;
+                    if(counter == 5'd0) begin
+                        dvalid <= 1'b1;
+                        state <= IDLE;
+                    end
+                    counter <= counter - 1;
+                    /*
                     data[counter] <= sdin;
                     if(counter == 5'd0) begin
                         dvalid <= 1'b1;
                         state <= IDLE;
                     end
                     counter--;
+                    */
                 end
             default:
                 state <= IDLE;
