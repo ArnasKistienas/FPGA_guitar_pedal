@@ -2,7 +2,7 @@ module i2s_transmitter(
         input rst,
         input sclk,
         input lrclk,
-        input [23:0]data,
+        input signed [23:0]data,
         output reg sdout
     );
 
@@ -17,18 +17,19 @@ module i2s_transmitter(
     reg state;
   
     // State transitions
-    always @(posedge sclk or posedge rst) begin
+    always @(negedge sclk or posedge rst) begin
         if(rst) begin
             prev_lr <= lrclk;
             state <= IDLE;
-            sdout <= 0;
+            sdout <= 1'b0;
+            counter <= 1'b0;
         end else begin
             case (state)
             IDLE:
                 begin
                     sdout <= 1'b0;
                     if(prev_lr ^ lrclk) begin
-                        counter = 5'd23;
+                        counter <= 5'd23;
                         state <= SEND;
                     end
                     prev_lr <= lrclk;
