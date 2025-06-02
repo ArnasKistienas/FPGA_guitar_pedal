@@ -2,7 +2,8 @@ module i2s_transmitter(
         input rst,
         input sclk,
         input lrclk,
-        input signed [23:0]data,
+        input signed [23:0]ldata,
+        input signed [23:0]rdata,
         output reg sdout
     );
 
@@ -36,7 +37,7 @@ module i2s_transmitter(
                 end
             SEND:
                 begin          
-                    sdout <= data[counter];
+                    sdout <= lrclk ? ldata[counter] : rdata[counter];
                     if(counter == 5'd0) begin
                         state <= IDLE;
                     end
