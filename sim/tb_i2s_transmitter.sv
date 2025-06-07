@@ -2,7 +2,7 @@
 
 module tb_i2s_transmitter;
     reg reset, in_mclk;
-    reg [23:0] in_data;
+    reg [23:0] in_ldata, in_rdata;
     wire in_sclk, in_lrclk;
     wire out;
     reg [23:0] data_arr[0:6]; //= {50321, 2131, 34245, 12312, 9044432, 0, 16777215};
@@ -17,12 +17,11 @@ module tb_i2s_transmitter;
         .rst(reset),
         .sclk(in_sclk),
         .lrclk(in_lrclk),
-        .data(in_data),
+        .ldata(in_ldata),
+        .rdata(in_rdata),
         .sdout(out)
     );
     initial begin
-        $dumpfile("../sim/i2s_transmitter.vcd");
-        $dumpvars(1, tb_i2s_transmitter);
         forever #2214 in_mclk= ~in_mclk;
     end
     initial begin
@@ -40,9 +39,13 @@ module tb_i2s_transmitter;
     end
 
     always @(in_lrclk) begin
-        in_data <= data_arr[count];
+        if(in_lrclk) begin
+            in_ldata <= data_arr[count];
+        end else begin
+            in_rdata <= data_arr[count];
+        end
         count++;
-        if(count >= 8) begin
+        if(count >= 7) begin
             $finish(1);
         end
     end
